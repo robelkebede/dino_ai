@@ -10,10 +10,12 @@ from sklearn import metrics
 from PIL import Image
 import pyautogui
 import pyscreenshot as ImageGrab
+from mss import mss
 
 
 data = np.load("train_03_resize.npy",allow_pickle=True)
-load_model = joblib.load("dino_ai_v5_svc_one_feature")
+load_model = joblib.load("dino_ai_v3_svc_one_feature")
+#load_model = joblib.load("dino_ai_v2_svc")
 
 
 x = data[:,0]
@@ -30,50 +32,91 @@ def trainingVideo():
             break
 
 
+def the_copy():
+
+    """
+    img = ImageGrab.grab(bbox=(0,0,500,500))
+
+    img_np = np.array(img)
+
+    gray = cv2.cvtColor(img_np,cv2.COLOR_BGR2GRAY)
+
+    gray = cv2.resize(gray,dsize=(50,50))  
+
+    cv2.imshow("TEST_#",gray)
+    """
+
+    """
+    de = predict(gray,load_model)
+    print("the de",de)
+
+    if de[0]==1:
+        pyautogui.press("up")
+        pyautogui.press("enter")
+        print("JUMP")
+        print([time.ctime(),"JUMP",x])
+    elif de[0]==2:
+        pyautogui.press("down")
+        pyautogui.press("enter")
+        print("DOWN")
+    else:
+        print("DO_NOTHING")
+        pyautogui.press("enter")
+
+
+    x=x+1
+
+    """
+
+
+
 def run_game():
     x=1
+    
+    with  mss() as sct:
+        while True:
+            mon = {'top':100,'left':0,'width':500,'height':300}
 
-    while True:
-        try:
+            image_mss = np.array(sct.grab(mon))
 
-            img = ImageGrab.grab(bbox=(0,0,500,500))
+            im = cv2.cvtColor(image_mss, cv2.COLOR_BGR2GRAY) 
+            im = cv2.Canny(im,500,500)
+            """
+            kernel = np.ones((1,120), np.uint8)
+            d_im = cv2.dilate(im, kernel, iterations=1)
+            e_im = cv2.erode(d_im, kernel, iterations=1)  """
+            gray = cv2.resize(im,dsize=(50,50)) 
 
-            img_np = np.array(img)
-
-            gray = cv2.cvtColor(img_np,cv2.COLOR_BGR2GRAY)
-
-            gray = cv2.resize(gray,dsize=(50,50)) 
-
-            cv2.imshow("TEST_#",gray)
+            """
+            ########################################################
+            """
             de = predict(gray,load_model)
             print("the de",de)
 
             if de[0]==1:
                 pyautogui.press("up")
                 pyautogui.press("enter")
-                print("JUMP")
                 print([time.ctime(),"JUMP",x])
             elif de[0]==2:
                 pyautogui.press("down")
                 pyautogui.press("enter")
-                print("DOWN")
             else:
                 print("DO_NOTHING")
-                pyautogui.press("enter")
+                #pyautogui.press("enter")
 
 
-            x=x+1
-            if cv2.waitKey(30)==27:
+            print("desicion {} time {}".format(de,time.ctime()))
+
+            cv2.imshow("TEST_#",im)
+            
+            if cv2.waitKey(30) == 27:
                 break
-        except KeyboardInterrupt:
-            print("ctrl+c pressed....")
-            sys.exit(1)
-
-            break
 
 
 
 def contureTest(img):
+
+    img = np.uint8(img)
     img = cv2.GaussianBlur(img,(5,5),2)
 
     ret,thresh = cv2.threshold(img,10,255,0)
@@ -97,16 +140,19 @@ def VideoCon():
         contureTest(x[i])
 
         cv2.imshow("Image test",x[i])
-        print(y[i])
+        de = predict(x[i],load_model)
+
+        print([y[i],de])
 
         if cv2.waitKey(30)==27:
             break
 
 
 def predict(img,load_model):
-    features = contureTest(img)
-    start = time.time()
+    features = np.array(contureTest(img))
     predict = load_model.predict(np.array(features[-1]).reshape(1,-1))
+    #predict = load_model.predict(features.reshape(-1,1))
+    #check this with more features
 
     return predict
 
@@ -138,6 +184,8 @@ def trainTest():
     print(metrics.classification_report(predict,y_test))
 
 if __name__ == "__main__":
-    main()
+    run_game()
+    
+    
 
 
