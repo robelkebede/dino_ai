@@ -10,7 +10,6 @@ import pandas as pd
 import joblib
 
 data = np.load("./dataset/train_03_resize.npy",allow_pickle=True)
-#data = np.load("./dataset/train_data_mss_v2.npy",allow_pickle=True)
 
 def model(data):
     x = [cv2.resize(img,(50,50)) for img in data[:,0]]

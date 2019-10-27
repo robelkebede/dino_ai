@@ -2,10 +2,11 @@
 play chrome Dinosaur
 
 
+* Supervised learning
 * Faild to detect small Trees 
-* Multi layter Preptron
+* Multi layer Preptron
 * model 87% Accuracy
-* max score 210
+* max score 300
 
 
 ## Installation
@@ -27,6 +28,8 @@ play chrome Dinosaur
 ```
 
 ## Video
+
+[![neural network playing game](https://youtu.be/a2TWe4Fw21g)](https://youtu.be/a2TWe4Fw21g "neural net playing game")
 
 
 ## Contributing
