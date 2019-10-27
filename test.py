@@ -78,10 +78,19 @@ def run_game():
             mon = {'top':100,'left':0,'width':500,'height':300}
             image_mss = np.array(sct.grab(mon))
 
-            im = cv2.cvtColor(image_mss, cv2.COLOR_BGR2GRAY) 
-            im = cv2.Canny(im,100,200) 
-            gray = cv2.resize(im,dsize=(50,50))   
+            """
 
+            im = cv2.cvtColor(image_mss, cv2.COLOR_BGR2GRAY) 
+            im = cv2.Canny(im,200,200) 
+            gray = cv2.resize(im,dsize=(50,50))    """
+
+            im = cv2.cvtColor(image_mss, cv2.COLOR_BGR2GRAY) 
+
+            img = cv2.GaussianBlur(im,(5,5),2)
+            im = cv2.Canny(im,200,200) 
+            gray = cv2.resize(im,dsize=(50,50)) 
+
+            #ret,thresh = cv2.threshold(img,5,255,0)
             """
             img = np.array(ImageGrab.grab(bbox=(0,0,500,500)))
 
@@ -89,7 +98,8 @@ def run_game():
 
             gray = cv2.resize(gray,dsize=(50,50))  
 
-            gray = cv2.Canny(gray,150,250) """
+            gray = cv2.Canny(gray,150,250)  """
+
 
             de = predict(gray,load_model)
             print("the de",de)
