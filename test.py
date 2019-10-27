@@ -14,7 +14,7 @@ from mss import mss
 
 
 data = np.load("./dataset/train_03_resize.npy",allow_pickle=True)
-load_model = joblib.load("./model/dino_neural_v1")
+load_model = joblib.load("./model/dino_neural_v3")
 
 
 x = data[:,0]
@@ -87,8 +87,9 @@ def run_game():
             im = cv2.cvtColor(image_mss, cv2.COLOR_BGR2GRAY) 
 
             img = cv2.GaussianBlur(im,(5,5),2)
-            im = cv2.Canny(im,200,200) 
-            gray = cv2.resize(im,dsize=(50,50)) 
+            #gray = cv2.resize(im,dsize=(50,50),fx=0.5,fy=0.7) 
+            canny = cv2.Canny(img,100,200) 
+            gray = cv2.resize(canny,dsize=(50,50)) 
 
             #ret,thresh = cv2.threshold(img,5,255,0)
             """
@@ -102,22 +103,18 @@ def run_game():
 
 
             de = predict(gray,load_model)
-            print("the de",de)
             
 
             if de[0]==1:
                 pyautogui.press("up")
                 pyautogui.press("enter")
-                print([time.ctime(),"JUMP",x])
-            elif de[0]==2:
-                pyautogui.press("down")
-                pyautogui.press("enter")
+                print([time.ctime(),"JUMP ",de[0]])
             else:
-                print("DO_NOTHING")
-                #pyautogui.press("enter")
+                print([time.ctime(),"WALK"])
+                pyautogui.press("enter")
 
 
-            cv2.imshow("TEST_#",gray)
+            cv2.imshow("TEST_#",canny)
             
             if cv2.waitKey(30) == 27:
                 break
@@ -161,8 +158,6 @@ def VideoCon():
 def predict(img,load_model):
     #features = np.array(contureTest(img))
     features = img
-
-    print(features.shape)
     predict = load_model.predict(features.reshape(1,-1))
     #predict = load_model.predict(features[-1].reshape(-1,1))
     #check this with more features

@@ -10,26 +10,26 @@ import pandas as pd
 import joblib
 
 data = np.load("./dataset/train_03_resize.npy",allow_pickle=True)
+#data = np.load("./dataset/train_data_mss_v2.npy",allow_pickle=True)
 
 def model(data):
     x = [cv2.resize(img,(50,50)) for img in data[:,0]]
     y = [tar for tar in data[:,1]]
     
-    x = np.array([img for img in x]).reshape(432,50*50)
-    y= np.array([tar[0] for tar in y]) 
+    x = np.array([img for img in x]).reshape(data[:,0].shape[0],50*50)
+    y= np.array([tar for tar in y]) 
 
     x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,shuffle=True,random_state=4)
 
-    network = MLPClassifier(hidden_layer_sizes=(100,),verbose=True)
+    network = MLPClassifier(hidden_layer_sizes=(10,),verbose=True)
 
     network.fit(x_train,y_train)
 
-    #joblib.dump(network,"./model/dino_neural_v2")
+    joblib.dump(network,"./model/dino_neural_v3")
 
     predict = network.predict(x_test)
 
     print(metrics.classification_report(predict,y_test)) 
-
 
 
 if __name__ == "__main__":

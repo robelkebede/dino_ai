@@ -1,10 +1,11 @@
 # Dino_ai
 play chrome Dinosaur
 
-* Can play
+
 * Faild to detect small Trees 
 * Multi layter Preptron
 * model 87% Accuracy
+* max score 210
 
 
 ## Installation
