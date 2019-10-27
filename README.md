@@ -1,5 +1,5 @@
 # dino_ai
 play chrome Dinosaur
 
-* Faild to detect the objects n real-time because opencv grab_screen takes 4 FPS 
+* Faild to detect small Trees
 * the models worked 

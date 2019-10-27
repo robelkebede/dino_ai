@@ -1,4 +1,0 @@
-
-# find a way to smooth the line 
-# run the game in sudo  
-# shut the screen
