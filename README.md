@@ -29,7 +29,9 @@ play chrome Dinosaur
 
 ## Video
 
-[![neural network playing game](https://youtu.be/a2TWe4Fw21g)](https://youtu.be/a2TWe4Fw21g "neural net playing game")
+
+[![NEURAL NETWORK PLAYING GAME](http://img.youtube.com/vi/a2TWe4Fw21g/0.jpg)](http://www.youtube.com/watch?v=a2TWe4Fw21g)
+
 
 
 ## Contributing
