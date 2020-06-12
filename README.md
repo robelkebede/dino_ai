@@ -8,7 +8,9 @@ play chrome Dinosaur
 * model 87% Accuracy
 * max score 300
 
-##TODO
+
+
+## TODO
 
 * Better Model
 
